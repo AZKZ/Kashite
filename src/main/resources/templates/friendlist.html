@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head th:replace="common :: common_head(書籍登録)">
+</head>
+<body>
+	<div th:replace="common :: common_navbar"></div>
+	<div class="uk-container">
+		<div class="uk-margin-small-top">
+			<a class="uk-button uk-button-default uk-border-pill" href="/friend/myqrcode">QRコード</a>
+			<a class="uk-button uk-button-default uk-border-pill" th:href="${countAcceptionTarget} ? '/friend/acceptlist': '#'">承認<span class="uk-margin-small-left uk-badge" th:text="${countAcceptionTarget}"></span></a>
+		</div>
+
+		<div class="uk-container uk-container-xsmall uk-margin-small-top">
+			<!-- フレンド一覧 -->
+			<table class="uk-table uk-table-middle uk-table-divider">
+				<tbody>
+					<!-- 件数分 繰り返す -->
+					<div th:each="firiend : ${viewUserFriendList}">
+						<tr>
+
+							<!-- アイコン画像 -->
+							<td class="uk-table-shrink">
+								<img class="uk-preserve-width uk-border-circle" src="https://placehold.jp/100/3d4070/ffffff/150x150.png?text=%E2%98%BA" width="40" alt="">
+							</td>
+
+							<!-- ユーザー名 -->
+							<td class="" th:text="${firiend.friendName}">
+							</td>
+
+						</tr>
+					</div>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

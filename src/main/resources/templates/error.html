@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head th:replace="common :: common_head(Kashite)">
+</head>
+</head>
+<body>
+	<!-- 背景画像 -->
+	<div class="uk-background-cover" uk-height-viewport style="background-image: url(/image/error_cover.jpg);">
+		<hr>
+		<div class="uk-container-expand">
+
+			<!-- アイコン画像
+			<div class="uk-align-center uk-width-1-3">
+				<img data-src="/image/kashite_icon_bar.png" uk-img>
+			</div> -->
+
+			<!-- メッセージ -->
+			<div class="uk-align-center uk-margin-medium-top uk-width-1-1 uk-width-1-2@l">
+				<div class=" uk-overlay uk-overlay-default uk-padding-large uk-text-top">
+					<h1 class="uk-heading-large uk-text-muted" th:text="#{errorpage.sorry}"></h1>
+					<h3 class="uk-text-muted" th:text="#{errorpage.message}"></h3>
+				</div>
+			</div>
+
+			<!-- ボタン -->
+			<div class="uk-margin-medium-top">
+				<a href="/dashboard">
+					<button class="uk-button uk-button-primary uk-align-center"><span class="uk-margin-small-right uk-margin-small-bottom" uk-icon="home"></span>ホームへ</button>
+				</a>
+			</div>
+
+		</div>
+
+	</div>
+</body>
+</html>

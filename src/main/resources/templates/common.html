@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ja">
+<head th:fragment="common_head(title)">
+	<title th:text="${title}">各ページ タイトル名</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<!-- UIkit CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.4.2/dist/css/uikit.min.css" />
+	<!-- UIkit JS -->
+	<script src="https://cdn.jsdelivr.net/npm/uikit@3.4.2/dist/js/uikit.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/uikit@3.4.2/dist/js/uikit-icons.min.js"></script>
+	<!-- Zxing -->
+	<script src="https://unpkg.com/@zxing/library@latest"></script>
+	<!-- Kashite.js -->
+	<script th:src="@{/js/kashite.js}"></script>
+
+	<style>
+		/* PC版メニュー 文字色 */
+		.navbarText {
+			color: white !important;
+		}
+
+		/* PC版メニュー ホバー時 */
+		.navbarText:hover {
+			border-top-left-radius: 20px 20px;
+			border-top-right-radius: 20px 20px;
+			color: black !important;
+			background-color: lightyellow;
+		}
+	</style>
+
+</head>
+<body>
+	<header>
+		<div th:fragment="common_navbar">
+			<!-- ナビゲーションバー -->
+			<nav class="uk-navbar-container" style="background-color:#F4B183;" uk-navbar>
+				<div class="uk-navbar-left">
+
+					<!-- Kashiteアイコン -->
+					<a class="uk-navbar-item uk-logo" href="/dashboard">
+						<img data-src="/image/kashite_icon_bar_transparent.png" width="150px" height="auto" uk-img>
+					</a>
+
+					<!-- PC用メニュー -->
+					<div class="uk-visible@l">
+						<ul class="uk-navbar-nav">
+							<li><a class="navbarText" href="#" onclick="location.href='/booklist'" th:text="#{tab.mybooks}"></a></li>
+							<!-- <li><a class="navbarText" href="#" onclick="return UIkit.modal.alert('Comming soon')" th:text="#{tab.friendsbooks}"></a></li> -->
+							<li><a class="navbarText" href="#" onclick="location.href='/friend/list'" th:text="#{tab.friends}"></a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="uk-navbar-right">
+
+					<!-- ユーザーアイコン -->
+					<img class="uk-border-circle uk-margin-small-right" th:src="${#authentication.principal.attributes['picture']}" alt="Border circle" width="50px" height="50px">
+
+					<!-- スマホ版メニュー -->
+					<a class="uk-navbar-toggle uk-hidden@l" uk-navbar-toggle-icon href="#" uk-toggle="target: #offcanvas-flip"></a>
+					<div id="offcanvas-flip" uk-offcanvas="flip: true; overlay: true">
+
+						<!-- オフキャンバスの中身 -->
+						<div class="uk-offcanvas-bar">
+
+							<!-- Xボタン -->
+							<button class="uk-offcanvas-close" type="button" uk-close></button>
+
+							<!-- メニューリスト -->
+							<ul class="uk-nav uk-nav-default">
+								<li class="uk-nav-header">MENU</li>
+								<li><a href="#" onclick="location.href='/booklist'" th:text="#{tab.mybooks}"></a></li>
+								<!-- <li><a href="#" onclick="return UIkit.modal.alert('Comming soon')" th:text="#{tab.friendsbooks}"></a></li> -->
+								<li><a href="#" onclick="location.href='/friend/list'" th:text="#{tab.friends}">Item</a></li>
+							</ul>
+
+						</div>
+					</div>
+				</div>
+			</nav>
+		</div>
+
+	</header>
+</body>
+</html>

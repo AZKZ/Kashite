@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head th:replace="common :: common_head(Kashite)">
+</head>
+</head>
+<body>
+	<!-- 背景画像 -->
+	<div class="uk-background-cover" uk-height-viewport style="background-image: url(/image/welcome_cover4.jpg);">
+
+		<div class="uk-container">
+
+			<!-- 上部にスペースを空ける marginだと背景画像も巻き込まれる -->
+			<!-- スマホ版 -->
+			<div class="uk-hidden@l" style="height:75px;"> </div>
+			<!-- PC版 -->
+			<div class="uk-visible@l" style="height:30px;"> </div>
+
+			<!-- アイコン画像 -->
+			<img class="uk-align-center uk-width-4-5 uk-width-1-3@l" data-src="/image/kashite_icon_bar.png" uk-img>
+
+			<!-- メッセージ -->
+			<div class="uk-align-center uk-margin-medium-top uk-width-1-1 uk-width-1-2@l">
+				<div class=" uk-overlay uk-overlay-default uk-padding-large uk-text-center">
+					<h2 th:text="#{welcome.message}"></h2>
+				</div>
+			</div>
+
+			<!-- スマホ版のみスペースを空ける -->
+			<div class="uk-hidden@l" style="height:75px;"> </div>
+
+			<!-- ボタン -->
+			<div class="uk-margin-medium-top">
+				<a href="/booklist">
+					<img class="uk-align-center uk-width-1-2 uk-width-1-5@l" data-src="/image/btn_google_signin_dark_normal_web@2x.png" uk-img>
+				</a>
+			</div>
+
+		</div>
+
+	</div>
+</body>
+</html>

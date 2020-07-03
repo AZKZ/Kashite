@@ -1,0 +1,1497 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.0
+-- Dumped by pg_dump version 12.0
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: kashite; Type: SCHEMA; Schema: -; Owner: kashite
+--
+
+CREATE SCHEMA kashite;
+
+
+ALTER SCHEMA kashite OWNER TO kashite;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: map_tag; Type: TABLE; Schema: kashite; Owner: kashite
+--
+
+CREATE TABLE kashite.map_tag (
+    id integer NOT NULL,
+    tag_map_id integer NOT NULL,
+    tag_id integer NOT NULL,
+    creation_date timestamp without time zone NOT NULL,
+    created_user character varying(30) NOT NULL,
+    created_program character varying(30) NOT NULL,
+    update_date timestamp without time zone NOT NULL,
+    update_user character varying(30) NOT NULL,
+    update_program character varying(30) NOT NULL,
+    version integer NOT NULL
+);
+
+
+ALTER TABLE kashite.map_tag OWNER TO kashite;
+
+--
+-- Name: TABLE map_tag; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON TABLE kashite.map_tag IS 'タグマップ';
+
+
+--
+-- Name: COLUMN map_tag.id; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.map_tag.id IS 'ID';
+
+
+--
+-- Name: COLUMN map_tag.tag_map_id; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.map_tag.tag_map_id IS 'タグマップID';
+
+
+--
+-- Name: COLUMN map_tag.tag_id; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.map_tag.tag_id IS 'タグID';
+
+
+--
+-- Name: COLUMN map_tag.creation_date; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.map_tag.creation_date IS '作成日';
+
+
+--
+-- Name: COLUMN map_tag.created_user; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.map_tag.created_user IS '作成者';
+
+
+--
+-- Name: COLUMN map_tag.created_program; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.map_tag.created_program IS '作成プログラム';
+
+
+--
+-- Name: COLUMN map_tag.update_date; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.map_tag.update_date IS '更新日';
+
+
+--
+-- Name: COLUMN map_tag.update_user; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.map_tag.update_user IS '更新者';
+
+
+--
+-- Name: COLUMN map_tag.update_program; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.map_tag.update_program IS '更新プログラム';
+
+
+--
+-- Name: COLUMN map_tag.version; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.map_tag.version IS 'バージョン';
+
+
+--
+-- Name: map_tag_id_seq; Type: SEQUENCE; Schema: kashite; Owner: kashite
+--
+
+CREATE SEQUENCE kashite.map_tag_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE kashite.map_tag_id_seq OWNER TO kashite;
+
+--
+-- Name: map_tag_id_seq; Type: SEQUENCE OWNED BY; Schema: kashite; Owner: kashite
+--
+
+ALTER SEQUENCE kashite.map_tag_id_seq OWNED BY kashite.map_tag.id;
+
+
+--
+-- Name: mst_book; Type: TABLE; Schema: kashite; Owner: kashite
+--
+
+CREATE TABLE kashite.mst_book (
+    id integer NOT NULL,
+    title character varying(200) NOT NULL,
+    isbn_code character varying(13),
+    author character varying(200),
+    published_year character varying(4),
+    tags integer,
+    image_path character varying(300),
+    creation_date timestamp without time zone NOT NULL,
+    created_user character varying(30) NOT NULL,
+    created_program character varying(30) NOT NULL,
+    update_date timestamp without time zone NOT NULL,
+    update_user character varying(30) NOT NULL,
+    update_program character varying(30) NOT NULL,
+    version integer NOT NULL
+);
+
+
+ALTER TABLE kashite.mst_book OWNER TO kashite;
+
+--
+-- Name: TABLE mst_book; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON TABLE kashite.mst_book IS '書籍マスタ';
+
+
+--
+-- Name: COLUMN mst_book.id; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_book.id IS 'ID';
+
+
+--
+-- Name: COLUMN mst_book.title; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_book.title IS '書籍名';
+
+
+--
+-- Name: COLUMN mst_book.isbn_code; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_book.isbn_code IS 'ISBNコード';
+
+
+--
+-- Name: COLUMN mst_book.author; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_book.author IS '著者';
+
+
+--
+-- Name: COLUMN mst_book.published_year; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_book.published_year IS '発行年';
+
+
+--
+-- Name: COLUMN mst_book.tags; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_book.tags IS 'タグマップID';
+
+
+--
+-- Name: COLUMN mst_book.image_path; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_book.image_path IS '画像パス';
+
+
+--
+-- Name: COLUMN mst_book.creation_date; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_book.creation_date IS '作成日';
+
+
+--
+-- Name: COLUMN mst_book.created_user; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_book.created_user IS '作成者';
+
+
+--
+-- Name: COLUMN mst_book.created_program; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_book.created_program IS '作成プログラム';
+
+
+--
+-- Name: COLUMN mst_book.update_date; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_book.update_date IS '更新日';
+
+
+--
+-- Name: COLUMN mst_book.update_user; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_book.update_user IS '更新者';
+
+
+--
+-- Name: COLUMN mst_book.update_program; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_book.update_program IS '更新プログラム';
+
+
+--
+-- Name: COLUMN mst_book.version; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_book.version IS 'バージョン';
+
+
+--
+-- Name: mst_book_id_seq; Type: SEQUENCE; Schema: kashite; Owner: kashite
+--
+
+CREATE SEQUENCE kashite.mst_book_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE kashite.mst_book_id_seq OWNER TO kashite;
+
+--
+-- Name: mst_book_id_seq; Type: SEQUENCE OWNED BY; Schema: kashite; Owner: kashite
+--
+
+ALTER SEQUENCE kashite.mst_book_id_seq OWNED BY kashite.mst_book.id;
+
+
+--
+-- Name: mst_friend_relation_status; Type: TABLE; Schema: kashite; Owner: kashite
+--
+
+CREATE TABLE kashite.mst_friend_relation_status (
+    status character varying(1) NOT NULL,
+    name character varying(10) NOT NULL,
+    description character varying(200),
+    creation_date timestamp without time zone NOT NULL,
+    created_user character varying(30) NOT NULL,
+    created_program character varying(30) NOT NULL,
+    update_date timestamp without time zone NOT NULL,
+    update_user character varying(30) NOT NULL,
+    update_program character varying(30) NOT NULL,
+    version integer NOT NULL
+);
+
+
+ALTER TABLE kashite.mst_friend_relation_status OWNER TO kashite;
+
+--
+-- Name: TABLE mst_friend_relation_status; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON TABLE kashite.mst_friend_relation_status IS 'フレンド関係ステータス';
+
+
+--
+-- Name: COLUMN mst_friend_relation_status.status; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_friend_relation_status.status IS 'ステータス';
+
+
+--
+-- Name: COLUMN mst_friend_relation_status.name; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_friend_relation_status.name IS '名称';
+
+
+--
+-- Name: COLUMN mst_friend_relation_status.description; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_friend_relation_status.description IS '摘要';
+
+
+--
+-- Name: COLUMN mst_friend_relation_status.creation_date; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_friend_relation_status.creation_date IS '作成日';
+
+
+--
+-- Name: COLUMN mst_friend_relation_status.created_user; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_friend_relation_status.created_user IS '作成者';
+
+
+--
+-- Name: COLUMN mst_friend_relation_status.created_program; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_friend_relation_status.created_program IS '作成プログラム';
+
+
+--
+-- Name: COLUMN mst_friend_relation_status.update_date; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_friend_relation_status.update_date IS '更新日';
+
+
+--
+-- Name: COLUMN mst_friend_relation_status.update_user; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_friend_relation_status.update_user IS '更新者';
+
+
+--
+-- Name: COLUMN mst_friend_relation_status.update_program; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_friend_relation_status.update_program IS '更新プログラム';
+
+
+--
+-- Name: COLUMN mst_friend_relation_status.version; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_friend_relation_status.version IS 'バージョン';
+
+
+--
+-- Name: mst_tag; Type: TABLE; Schema: kashite; Owner: kashite
+--
+
+CREATE TABLE kashite.mst_tag (
+    id integer NOT NULL,
+    tag_name character varying(50) NOT NULL,
+    enable_flg character varying(1) NOT NULL,
+    creation_date timestamp without time zone NOT NULL,
+    created_user character varying(30) NOT NULL,
+    created_program character varying(30) NOT NULL,
+    update_date timestamp without time zone NOT NULL,
+    update_user character varying(30) NOT NULL,
+    update_program character varying(30) NOT NULL,
+    version integer NOT NULL
+);
+
+
+ALTER TABLE kashite.mst_tag OWNER TO kashite;
+
+--
+-- Name: TABLE mst_tag; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON TABLE kashite.mst_tag IS 'タグマスタ';
+
+
+--
+-- Name: COLUMN mst_tag.id; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_tag.id IS 'ID';
+
+
+--
+-- Name: COLUMN mst_tag.tag_name; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_tag.tag_name IS 'タグ名';
+
+
+--
+-- Name: COLUMN mst_tag.enable_flg; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_tag.enable_flg IS '有効フラグ';
+
+
+--
+-- Name: COLUMN mst_tag.creation_date; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_tag.creation_date IS '作成日';
+
+
+--
+-- Name: COLUMN mst_tag.created_user; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_tag.created_user IS '作成者';
+
+
+--
+-- Name: COLUMN mst_tag.created_program; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_tag.created_program IS '作成プログラム';
+
+
+--
+-- Name: COLUMN mst_tag.update_date; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_tag.update_date IS '更新日';
+
+
+--
+-- Name: COLUMN mst_tag.update_user; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_tag.update_user IS '更新者';
+
+
+--
+-- Name: COLUMN mst_tag.update_program; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_tag.update_program IS '更新プログラム';
+
+
+--
+-- Name: COLUMN mst_tag.version; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_tag.version IS 'バージョン';
+
+
+--
+-- Name: mst_tag_id_seq; Type: SEQUENCE; Schema: kashite; Owner: kashite
+--
+
+CREATE SEQUENCE kashite.mst_tag_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE kashite.mst_tag_id_seq OWNER TO kashite;
+
+--
+-- Name: mst_tag_id_seq; Type: SEQUENCE OWNED BY; Schema: kashite; Owner: kashite
+--
+
+ALTER SEQUENCE kashite.mst_tag_id_seq OWNED BY kashite.mst_tag.id;
+
+
+--
+-- Name: mst_user; Type: TABLE; Schema: kashite; Owner: kashite
+--
+
+CREATE TABLE kashite.mst_user (
+    id integer NOT NULL,
+    name character varying(50) NOT NULL,
+    subject character varying(300) NOT NULL,
+    issuer character varying(300) NOT NULL,
+    enable_flg character varying(1) NOT NULL,
+    creation_date timestamp without time zone NOT NULL,
+    created_user character varying(30) NOT NULL,
+    created_program character varying(30) NOT NULL,
+    update_date timestamp without time zone NOT NULL,
+    update_user character varying(30) NOT NULL,
+    update_program character varying(30) NOT NULL,
+    version integer NOT NULL
+);
+
+
+ALTER TABLE kashite.mst_user OWNER TO kashite;
+
+--
+-- Name: TABLE mst_user; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON TABLE kashite.mst_user IS 'ユーザーマスタ';
+
+
+--
+-- Name: COLUMN mst_user.id; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user.id IS 'ID';
+
+
+--
+-- Name: COLUMN mst_user.name; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user.name IS '名前';
+
+
+--
+-- Name: COLUMN mst_user.subject; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user.subject IS 'サブジェクト';
+
+
+--
+-- Name: COLUMN mst_user.issuer; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user.issuer IS 'トークン発行者';
+
+
+--
+-- Name: COLUMN mst_user.enable_flg; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user.enable_flg IS '有効フラグ';
+
+
+--
+-- Name: COLUMN mst_user.creation_date; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user.creation_date IS '作成日';
+
+
+--
+-- Name: COLUMN mst_user.created_user; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user.created_user IS '作成者';
+
+
+--
+-- Name: COLUMN mst_user.created_program; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user.created_program IS '作成プログラム';
+
+
+--
+-- Name: COLUMN mst_user.update_date; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user.update_date IS '更新日';
+
+
+--
+-- Name: COLUMN mst_user.update_user; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user.update_user IS '更新者';
+
+
+--
+-- Name: COLUMN mst_user.update_program; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user.update_program IS '更新プログラム';
+
+
+--
+-- Name: COLUMN mst_user.version; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user.version IS 'バージョン';
+
+
+--
+-- Name: mst_user_book_status; Type: TABLE; Schema: kashite; Owner: kashite
+--
+
+CREATE TABLE kashite.mst_user_book_status (
+    status character varying(1) NOT NULL,
+    name character varying(10) NOT NULL,
+    description character varying(200),
+    creation_date timestamp without time zone NOT NULL,
+    created_user character varying(30) NOT NULL,
+    created_program character varying(30) NOT NULL,
+    update_date timestamp without time zone NOT NULL,
+    update_user character varying(30) NOT NULL,
+    update_program character varying(30) NOT NULL,
+    version integer NOT NULL
+);
+
+
+ALTER TABLE kashite.mst_user_book_status OWNER TO kashite;
+
+--
+-- Name: TABLE mst_user_book_status; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON TABLE kashite.mst_user_book_status IS 'ユーザー書籍ステータス';
+
+
+--
+-- Name: COLUMN mst_user_book_status.status; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user_book_status.status IS 'ステータス';
+
+
+--
+-- Name: COLUMN mst_user_book_status.name; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user_book_status.name IS '名称';
+
+
+--
+-- Name: COLUMN mst_user_book_status.description; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user_book_status.description IS '摘要';
+
+
+--
+-- Name: COLUMN mst_user_book_status.creation_date; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user_book_status.creation_date IS '作成日';
+
+
+--
+-- Name: COLUMN mst_user_book_status.created_user; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user_book_status.created_user IS '作成者';
+
+
+--
+-- Name: COLUMN mst_user_book_status.created_program; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user_book_status.created_program IS '作成プログラム';
+
+
+--
+-- Name: COLUMN mst_user_book_status.update_date; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user_book_status.update_date IS '更新日';
+
+
+--
+-- Name: COLUMN mst_user_book_status.update_user; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user_book_status.update_user IS '更新者';
+
+
+--
+-- Name: COLUMN mst_user_book_status.update_program; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user_book_status.update_program IS '更新プログラム';
+
+
+--
+-- Name: COLUMN mst_user_book_status.version; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.mst_user_book_status.version IS 'バージョン';
+
+
+--
+-- Name: mst_user_id_seq; Type: SEQUENCE; Schema: kashite; Owner: kashite
+--
+
+CREATE SEQUENCE kashite.mst_user_id_seq
+    AS integer
+    START WITH 100000
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE kashite.mst_user_id_seq OWNER TO kashite;
+
+--
+-- Name: mst_user_id_seq; Type: SEQUENCE OWNED BY; Schema: kashite; Owner: kashite
+--
+
+ALTER SEQUENCE kashite.mst_user_id_seq OWNED BY kashite.mst_user.id;
+
+
+--
+-- Name: trn_friend_relation; Type: TABLE; Schema: kashite; Owner: kashite
+--
+
+CREATE TABLE kashite.trn_friend_relation (
+    id integer NOT NULL,
+    request_user_id integer NOT NULL,
+    acceptance_user_id integer NOT NULL,
+    status character varying(1) NOT NULL,
+    creation_date timestamp without time zone NOT NULL,
+    created_user character varying(30) NOT NULL,
+    created_program character varying(30) NOT NULL,
+    update_date timestamp without time zone NOT NULL,
+    update_user character varying(30) NOT NULL,
+    update_program character varying(30) NOT NULL,
+    version integer NOT NULL
+);
+
+
+ALTER TABLE kashite.trn_friend_relation OWNER TO kashite;
+
+--
+-- Name: TABLE trn_friend_relation; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON TABLE kashite.trn_friend_relation IS 'フレンド関係';
+
+
+--
+-- Name: COLUMN trn_friend_relation.id; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_friend_relation.id IS 'ID';
+
+
+--
+-- Name: COLUMN trn_friend_relation.request_user_id; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_friend_relation.request_user_id IS '申請者ID';
+
+
+--
+-- Name: COLUMN trn_friend_relation.acceptance_user_id; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_friend_relation.acceptance_user_id IS '承認者ID';
+
+
+--
+-- Name: COLUMN trn_friend_relation.status; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_friend_relation.status IS 'ステータス';
+
+
+--
+-- Name: COLUMN trn_friend_relation.creation_date; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_friend_relation.creation_date IS '作成日';
+
+
+--
+-- Name: COLUMN trn_friend_relation.created_user; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_friend_relation.created_user IS '作成者';
+
+
+--
+-- Name: COLUMN trn_friend_relation.created_program; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_friend_relation.created_program IS '作成プログラム';
+
+
+--
+-- Name: COLUMN trn_friend_relation.update_date; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_friend_relation.update_date IS '更新日';
+
+
+--
+-- Name: COLUMN trn_friend_relation.update_user; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_friend_relation.update_user IS '更新者';
+
+
+--
+-- Name: COLUMN trn_friend_relation.update_program; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_friend_relation.update_program IS '更新プログラム';
+
+
+--
+-- Name: COLUMN trn_friend_relation.version; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_friend_relation.version IS 'バージョン';
+
+
+--
+-- Name: trn_friend_relation_id_seq; Type: SEQUENCE; Schema: kashite; Owner: kashite
+--
+
+CREATE SEQUENCE kashite.trn_friend_relation_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE kashite.trn_friend_relation_id_seq OWNER TO kashite;
+
+--
+-- Name: trn_friend_relation_id_seq; Type: SEQUENCE OWNED BY; Schema: kashite; Owner: kashite
+--
+
+ALTER SEQUENCE kashite.trn_friend_relation_id_seq OWNED BY kashite.trn_friend_relation.id;
+
+
+--
+-- Name: trn_user_book; Type: TABLE; Schema: kashite; Owner: kashite
+--
+
+CREATE TABLE kashite.trn_user_book (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    book_id integer NOT NULL,
+    regist_date date NOT NULL,
+    status character varying(1) NOT NULL,
+    creation_date timestamp without time zone NOT NULL,
+    created_user character varying(30) NOT NULL,
+    created_program character varying(30) NOT NULL,
+    update_date timestamp without time zone NOT NULL,
+    update_user character varying(30) NOT NULL,
+    update_program character varying(30) NOT NULL,
+    version integer NOT NULL
+);
+
+
+ALTER TABLE kashite.trn_user_book OWNER TO kashite;
+
+--
+-- Name: TABLE trn_user_book; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON TABLE kashite.trn_user_book IS 'ユーザー書籍';
+
+
+--
+-- Name: COLUMN trn_user_book.id; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_user_book.id IS 'ID';
+
+
+--
+-- Name: COLUMN trn_user_book.user_id; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_user_book.user_id IS 'ユーザーID';
+
+
+--
+-- Name: COLUMN trn_user_book.book_id; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_user_book.book_id IS '書籍ID';
+
+
+--
+-- Name: COLUMN trn_user_book.regist_date; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_user_book.regist_date IS '登録日';
+
+
+--
+-- Name: COLUMN trn_user_book.status; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_user_book.status IS 'ステータス';
+
+
+--
+-- Name: COLUMN trn_user_book.creation_date; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_user_book.creation_date IS '作成日';
+
+
+--
+-- Name: COLUMN trn_user_book.created_user; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_user_book.created_user IS '作成者';
+
+
+--
+-- Name: COLUMN trn_user_book.created_program; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_user_book.created_program IS '作成プログラム';
+
+
+--
+-- Name: COLUMN trn_user_book.update_date; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_user_book.update_date IS '更新日';
+
+
+--
+-- Name: COLUMN trn_user_book.update_user; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_user_book.update_user IS '更新者';
+
+
+--
+-- Name: COLUMN trn_user_book.update_program; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_user_book.update_program IS '更新プログラム';
+
+
+--
+-- Name: COLUMN trn_user_book.version; Type: COMMENT; Schema: kashite; Owner: kashite
+--
+
+COMMENT ON COLUMN kashite.trn_user_book.version IS 'バージョン';
+
+
+--
+-- Name: trn_user_book_id_seq; Type: SEQUENCE; Schema: kashite; Owner: kashite
+--
+
+CREATE SEQUENCE kashite.trn_user_book_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE kashite.trn_user_book_id_seq OWNER TO kashite;
+
+--
+-- Name: trn_user_book_id_seq; Type: SEQUENCE OWNED BY; Schema: kashite; Owner: kashite
+--
+
+ALTER SEQUENCE kashite.trn_user_book_id_seq OWNED BY kashite.trn_user_book.id;
+
+
+--
+-- Name: view_friend_reletion_list; Type: VIEW; Schema: kashite; Owner: kashite
+--
+
+CREATE VIEW kashite.view_friend_reletion_list AS
+ SELECT tfr.id AS tfr_id,
+    tfr.request_user_id,
+    mt_r.name AS request_user_name,
+    tfr.acceptance_user_id,
+    mt_a.name AS acceptance_user_name,
+    tfr.status AS status_code,
+    mfrs.name AS status_name
+   FROM kashite.trn_friend_relation tfr,
+    kashite.mst_user mt_r,
+    kashite.mst_user mt_a,
+    kashite.mst_friend_relation_status mfrs
+  WHERE ((1 = 1) AND (tfr.request_user_id = mt_r.id) AND (tfr.acceptance_user_id = mt_a.id) AND ((mt_r.enable_flg)::text = '1'::text) AND ((mt_a.enable_flg)::text = '1'::text) AND ((tfr.status)::text = (mfrs.status)::text));
+
+
+ALTER TABLE kashite.view_friend_reletion_list OWNER TO kashite;
+
+--
+-- Name: view_tag_map_list; Type: VIEW; Schema: kashite; Owner: kashite
+--
+
+CREATE VIEW kashite.view_tag_map_list AS
+ SELECT row_number() OVER () AS id,
+    mp.tag_map_id,
+    mp.tag_id,
+    mt.tag_name
+   FROM kashite.map_tag mp,
+    kashite.mst_tag mt
+  WHERE ((1 = 1) AND (mp.tag_map_id = mt.id) AND ((mt.enable_flg)::text = '1'::text))
+  ORDER BY mp.tag_map_id, mp.tag_id;
+
+
+ALTER TABLE kashite.view_tag_map_list OWNER TO kashite;
+
+--
+-- Name: view_user_book_list; Type: VIEW; Schema: kashite; Owner: kashite
+--
+
+CREATE VIEW kashite.view_user_book_list AS
+ SELECT tub.id AS tub_id,
+    tub.user_id,
+    mu.name AS user_name,
+    mb.title,
+    mb.author,
+    mb.isbn_code,
+    tub.regist_date,
+    tub.status AS status_code,
+    mubs.name AS status_name,
+    mb.image_path
+   FROM kashite.mst_book mb,
+    kashite.trn_user_book tub,
+    kashite.mst_user_book_status mubs,
+    kashite.mst_user mu
+  WHERE ((1 = 1) AND (mb.id = tub.book_id) AND ((tub.status)::text = (mubs.status)::text) AND (tub.user_id = mu.id));
+
+
+ALTER TABLE kashite.view_user_book_list OWNER TO kashite;
+
+--
+-- Name: view_user_friend_list; Type: VIEW; Schema: kashite; Owner: kashite
+--
+
+CREATE VIEW kashite.view_user_friend_list AS
+ SELECT vfrl_r.tfr_id,
+    mu.id AS user_id,
+    mu.name AS user_name,
+    vfrl_r.acceptance_user_id AS friend_id,
+    vfrl_r.acceptance_user_name AS friend_name
+   FROM kashite.mst_user mu,
+    kashite.view_friend_reletion_list vfrl_r
+  WHERE ((1 = 1) AND (mu.id = vfrl_r.request_user_id) AND ((vfrl_r.status_code)::text = '3'::text))
+UNION ALL
+ SELECT vfrl_a.tfr_id,
+    mu.id AS user_id,
+    mu.name AS user_name,
+    vfrl_a.request_user_id AS friend_id,
+    vfrl_a.request_user_name AS friend_name
+   FROM kashite.mst_user mu,
+    kashite.view_friend_reletion_list vfrl_a
+  WHERE ((1 = 1) AND (mu.id = vfrl_a.acceptance_user_id) AND ((vfrl_a.status_code)::text = '3'::text));
+
+
+ALTER TABLE kashite.view_user_friend_list OWNER TO kashite;
+
+--
+-- Name: map_tag id; Type: DEFAULT; Schema: kashite; Owner: kashite
+--
+
+ALTER TABLE ONLY kashite.map_tag ALTER COLUMN id SET DEFAULT nextval('kashite.map_tag_id_seq'::regclass);
+
+
+--
+-- Name: mst_book id; Type: DEFAULT; Schema: kashite; Owner: kashite
+--
+
+ALTER TABLE ONLY kashite.mst_book ALTER COLUMN id SET DEFAULT nextval('kashite.mst_book_id_seq'::regclass);
+
+
+--
+-- Name: mst_tag id; Type: DEFAULT; Schema: kashite; Owner: kashite
+--
+
+ALTER TABLE ONLY kashite.mst_tag ALTER COLUMN id SET DEFAULT nextval('kashite.mst_tag_id_seq'::regclass);
+
+
+--
+-- Name: mst_user id; Type: DEFAULT; Schema: kashite; Owner: kashite
+--
+
+ALTER TABLE ONLY kashite.mst_user ALTER COLUMN id SET DEFAULT nextval('kashite.mst_user_id_seq'::regclass);
+
+
+--
+-- Name: trn_friend_relation id; Type: DEFAULT; Schema: kashite; Owner: kashite
+--
+
+ALTER TABLE ONLY kashite.trn_friend_relation ALTER COLUMN id SET DEFAULT nextval('kashite.trn_friend_relation_id_seq'::regclass);
+
+
+--
+-- Name: trn_user_book id; Type: DEFAULT; Schema: kashite; Owner: kashite
+--
+
+ALTER TABLE ONLY kashite.trn_user_book ALTER COLUMN id SET DEFAULT nextval('kashite.trn_user_book_id_seq'::regclass);
+
+
+--
+-- Data for Name: map_tag; Type: TABLE DATA; Schema: kashite; Owner: kashite
+--
+
+COPY kashite.map_tag (id, tag_map_id, tag_id, creation_date, created_user, created_program, update_date, update_user, update_program, version) FROM stdin;
+\.
+
+
+--
+-- Data for Name: mst_book; Type: TABLE DATA; Schema: kashite; Owner: kashite
+--
+
+COPY kashite.mst_book (id, title, isbn_code, author, published_year, tags, image_path, creation_date, created_user, created_program, update_date, update_user, update_program, version) FROM stdin;
+\.
+
+
+--
+-- Data for Name: mst_friend_relation_status; Type: TABLE DATA; Schema: kashite; Owner: kashite
+--
+
+COPY kashite.mst_friend_relation_status (status, name, description, creation_date, created_user, created_program, update_date, update_user, update_program, version) FROM stdin;
+1	未申請	\N	2020-05-30 00:00:00	azegami	hand	2020-05-30 00:00:00	azegami	hand	0
+2	承認待ち	\N	2020-05-30 00:00:00	azegami	hand	2020-05-30 00:00:00	azegami	hand	0
+3	承認済み	\N	2020-05-30 00:00:00	azegami	hand	2020-05-30 00:00:00	azegami	hand	0
+4	保留	\N	2020-05-30 00:00:00	azegami	hand	2020-05-30 00:00:00	azegami	hand	0
+5	申請キャンセル	\N	2020-05-30 00:00:00	azegami	hand	2020-05-30 00:00:00	azegami	hand	0
+6	拒否	\N	2020-05-30 00:00:00	azegami	hand	2020-05-30 00:00:00	azegami	hand	0
+\.
+
+
+--
+-- Data for Name: mst_tag; Type: TABLE DATA; Schema: kashite; Owner: kashite
+--
+
+COPY kashite.mst_tag (id, tag_name, enable_flg, creation_date, created_user, created_program, update_date, update_user, update_program, version) FROM stdin;
+\.
+
+
+--
+-- Data for Name: mst_user; Type: TABLE DATA; Schema: kashite; Owner: kashite
+--
+
+COPY kashite.mst_user (id, name, subject, issuer, enable_flg, creation_date, created_user, created_program, update_date, update_user, update_program, version) FROM stdin;
+\.
+
+
+--
+-- Data for Name: mst_user_book_status; Type: TABLE DATA; Schema: kashite; Owner: kashite
+--
+
+COPY kashite.mst_user_book_status (status, name, description, creation_date, created_user, created_program, update_date, update_user, update_program, version) FROM stdin;
+1	公開	\N	2020-05-15 00:00:00	azegami	hand	2020-05-15 00:00:00	azegami	hand	0
+2	非公開	\N	2020-05-15 00:00:00	azegami	hand	2020-05-15 00:00:00	azegami	hand	0
+3	貸出中	\N	2020-05-15 00:00:00	azegami	hand	2020-05-15 00:00:00	azegami	hand	0
+\.
+
+
+--
+-- Data for Name: trn_friend_relation; Type: TABLE DATA; Schema: kashite; Owner: kashite
+--
+
+COPY kashite.trn_friend_relation (id, request_user_id, acceptance_user_id, status, creation_date, created_user, created_program, update_date, update_user, update_program, version) FROM stdin;
+\.
+
+
+--
+-- Data for Name: trn_user_book; Type: TABLE DATA; Schema: kashite; Owner: kashite
+--
+
+COPY kashite.trn_user_book (id, user_id, book_id, regist_date, status, creation_date, created_user, created_program, update_date, update_user, update_program, version) FROM stdin;
+\.
+
+
+--
+-- Name: map_tag_id_seq; Type: SEQUENCE SET; Schema: kashite; Owner: kashite
+--
+
+SELECT pg_catalog.setval('kashite.map_tag_id_seq', 1, false);
+
+
+--
+-- Name: mst_book_id_seq; Type: SEQUENCE SET; Schema: kashite; Owner: kashite
+--
+
+SELECT pg_catalog.setval('kashite.mst_book_id_seq', 51, true);
+
+
+--
+-- Name: mst_tag_id_seq; Type: SEQUENCE SET; Schema: kashite; Owner: kashite
+--
+
+SELECT pg_catalog.setval('kashite.mst_tag_id_seq', 1, false);
+
+
+--
+-- Name: mst_user_id_seq; Type: SEQUENCE SET; Schema: kashite; Owner: kashite
+--
+
+SELECT pg_catalog.setval('kashite.mst_user_id_seq', 24, true);
+
+
+--
+-- Name: trn_friend_relation_id_seq; Type: SEQUENCE SET; Schema: kashite; Owner: kashite
+--
+
+SELECT pg_catalog.setval('kashite.trn_friend_relation_id_seq', 6, true);
+
+
+--
+-- Name: trn_user_book_id_seq; Type: SEQUENCE SET; Schema: kashite; Owner: kashite
+--
+
+SELECT pg_catalog.setval('kashite.trn_user_book_id_seq', 52, true);
+
+
+--
+-- Name: map_tag map_tag_ix1; Type: CONSTRAINT; Schema: kashite; Owner: kashite
+--
+
+ALTER TABLE ONLY kashite.map_tag
+    ADD CONSTRAINT map_tag_ix1 UNIQUE (tag_map_id, tag_id);
+
+
+--
+-- Name: map_tag map_tag_pkc; Type: CONSTRAINT; Schema: kashite; Owner: kashite
+--
+
+ALTER TABLE ONLY kashite.map_tag
+    ADD CONSTRAINT map_tag_pkc PRIMARY KEY (id);
+
+
+--
+-- Name: mst_book mst_book_pkc; Type: CONSTRAINT; Schema: kashite; Owner: kashite
+--
+
+ALTER TABLE ONLY kashite.mst_book
+    ADD CONSTRAINT mst_book_pkc PRIMARY KEY (id);
+
+
+--
+-- Name: mst_friend_relation_status mst_friend_relation_status_pkc; Type: CONSTRAINT; Schema: kashite; Owner: kashite
+--
+
+ALTER TABLE ONLY kashite.mst_friend_relation_status
+    ADD CONSTRAINT mst_friend_relation_status_pkc PRIMARY KEY (status);
+
+
+--
+-- Name: mst_tag mst_tag_pkc; Type: CONSTRAINT; Schema: kashite; Owner: kashite
+--
+
+ALTER TABLE ONLY kashite.mst_tag
+    ADD CONSTRAINT mst_tag_pkc PRIMARY KEY (id);
+
+
+--
+-- Name: mst_user_book_status mst_user_book_status_pkc; Type: CONSTRAINT; Schema: kashite; Owner: kashite
+--
+
+ALTER TABLE ONLY kashite.mst_user_book_status
+    ADD CONSTRAINT mst_user_book_status_pkc PRIMARY KEY (status);
+
+
+--
+-- Name: mst_user mst_user_ix1; Type: CONSTRAINT; Schema: kashite; Owner: kashite
+--
+
+ALTER TABLE ONLY kashite.mst_user
+    ADD CONSTRAINT mst_user_ix1 UNIQUE (subject, issuer);
+
+
+--
+-- Name: mst_user mst_user_pkc; Type: CONSTRAINT; Schema: kashite; Owner: kashite
+--
+
+ALTER TABLE ONLY kashite.mst_user
+    ADD CONSTRAINT mst_user_pkc PRIMARY KEY (id);
+
+
+--
+-- Name: trn_friend_relation trn_friend_relation_ix1; Type: CONSTRAINT; Schema: kashite; Owner: kashite
+--
+
+ALTER TABLE ONLY kashite.trn_friend_relation
+    ADD CONSTRAINT trn_friend_relation_ix1 UNIQUE (request_user_id, acceptance_user_id);
+
+
+--
+-- Name: trn_friend_relation trn_friend_relation_pkc; Type: CONSTRAINT; Schema: kashite; Owner: kashite
+--
+
+ALTER TABLE ONLY kashite.trn_friend_relation
+    ADD CONSTRAINT trn_friend_relation_pkc PRIMARY KEY (id);
+
+
+--
+-- Name: trn_user_book trn_user_book_pkc; Type: CONSTRAINT; Schema: kashite; Owner: kashite
+--
+
+ALTER TABLE ONLY kashite.trn_user_book
+    ADD CONSTRAINT trn_user_book_pkc PRIMARY KEY (id);
+
+
+--
+-- Name: SCHEMA kashite; Type: ACL; Schema: -; Owner: kashite
+--
+
+GRANT USAGE ON SCHEMA kashite TO kashite_r;
+GRANT USAGE ON SCHEMA kashite TO kashite_rw;
+
+
+--
+-- Name: TABLE map_tag; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT SELECT ON TABLE kashite.map_tag TO kashite_r;
+GRANT INSERT,DELETE,UPDATE ON TABLE kashite.map_tag TO kashite_rw;
+
+
+--
+-- Name: SEQUENCE map_tag_id_seq; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT SELECT ON SEQUENCE kashite.map_tag_id_seq TO kashite_r;
+GRANT USAGE,UPDATE ON SEQUENCE kashite.map_tag_id_seq TO kashite_rw;
+
+
+--
+-- Name: TABLE mst_book; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT SELECT ON TABLE kashite.mst_book TO kashite_r;
+GRANT INSERT,DELETE,UPDATE ON TABLE kashite.mst_book TO kashite_rw;
+
+
+--
+-- Name: SEQUENCE mst_book_id_seq; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT SELECT ON SEQUENCE kashite.mst_book_id_seq TO kashite_r;
+GRANT USAGE,UPDATE ON SEQUENCE kashite.mst_book_id_seq TO kashite_rw;
+
+
+--
+-- Name: TABLE mst_friend_relation_status; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT INSERT,DELETE,UPDATE ON TABLE kashite.mst_friend_relation_status TO kashite_rw;
+GRANT SELECT ON TABLE kashite.mst_friend_relation_status TO kashite_r;
+
+
+--
+-- Name: TABLE mst_tag; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT SELECT ON TABLE kashite.mst_tag TO kashite_r;
+GRANT INSERT,DELETE,UPDATE ON TABLE kashite.mst_tag TO kashite_rw;
+
+
+--
+-- Name: SEQUENCE mst_tag_id_seq; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT SELECT ON SEQUENCE kashite.mst_tag_id_seq TO kashite_r;
+GRANT USAGE,UPDATE ON SEQUENCE kashite.mst_tag_id_seq TO kashite_rw;
+
+
+--
+-- Name: TABLE mst_user; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT SELECT ON TABLE kashite.mst_user TO kashite_r;
+GRANT INSERT,DELETE,UPDATE ON TABLE kashite.mst_user TO kashite_rw;
+
+
+--
+-- Name: TABLE mst_user_book_status; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT SELECT ON TABLE kashite.mst_user_book_status TO kashite_r;
+GRANT INSERT,DELETE,UPDATE ON TABLE kashite.mst_user_book_status TO kashite_rw;
+
+
+--
+-- Name: SEQUENCE mst_user_id_seq; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT SELECT ON SEQUENCE kashite.mst_user_id_seq TO kashite_r;
+GRANT USAGE,UPDATE ON SEQUENCE kashite.mst_user_id_seq TO kashite_rw;
+
+
+--
+-- Name: TABLE trn_friend_relation; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT INSERT,DELETE,UPDATE ON TABLE kashite.trn_friend_relation TO kashite_rw;
+GRANT SELECT ON TABLE kashite.trn_friend_relation TO kashite_r;
+
+
+--
+-- Name: SEQUENCE trn_friend_relation_id_seq; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT USAGE,UPDATE ON SEQUENCE kashite.trn_friend_relation_id_seq TO kashite_rw;
+
+
+--
+-- Name: TABLE trn_user_book; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT SELECT ON TABLE kashite.trn_user_book TO kashite_r;
+GRANT INSERT,DELETE,UPDATE ON TABLE kashite.trn_user_book TO kashite_rw;
+
+
+--
+-- Name: SEQUENCE trn_user_book_id_seq; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT SELECT ON SEQUENCE kashite.trn_user_book_id_seq TO kashite_r;
+GRANT USAGE,UPDATE ON SEQUENCE kashite.trn_user_book_id_seq TO kashite_rw;
+
+
+--
+-- Name: TABLE view_friend_reletion_list; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT SELECT ON TABLE kashite.view_friend_reletion_list TO kashite_r;
+
+
+--
+-- Name: TABLE view_tag_map_list; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT SELECT ON TABLE kashite.view_tag_map_list TO kashite_r;
+GRANT INSERT,DELETE,UPDATE ON TABLE kashite.view_tag_map_list TO kashite_rw;
+
+
+--
+-- Name: TABLE view_user_book_list; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT SELECT ON TABLE kashite.view_user_book_list TO kashite_r;
+GRANT INSERT,DELETE,UPDATE ON TABLE kashite.view_user_book_list TO kashite_rw;
+
+
+--
+-- Name: TABLE view_user_friend_list; Type: ACL; Schema: kashite; Owner: kashite
+--
+
+GRANT SELECT ON TABLE kashite.view_user_friend_list TO kashite_r;
+GRANT INSERT,DELETE,UPDATE ON TABLE kashite.view_user_friend_list TO kashite_rw;
+
+
+--
+-- PostgreSQL database dump complete
+--

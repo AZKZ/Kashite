@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+
+<head th:replace="common :: common_head(書籍登録)">
+</head>
+<body>
+	<div th:replace="common :: common_navbar"></div>
+	<div class="uk-container uk-container-xsmall uk-margin-medium-top">
+
+		<!-- QRコード-->
+		<img class="uk-align-center" th:src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + ${url}" alt="">
+
+		<div class="uk-align-center uk-width-4-5 uk-width-1-2@l">
+
+			<!-- コピーアイコン 押下時にテキストURLをコピー-->
+			<p uk-icon="copy" onclick="copy();"></p>
+
+			<!-- テキストURL -->
+			<div class="uk-card uk-card-default" style="background-color:#DCDCDC;">
+				<p class="uk-text-break" id="linktext" th:text="${url}"></p>
+			</div>
+		</div>
+	</div>
+
+	<script>
+
+		/**
+		*	テキストURLをコピーする
+		*/
+		function copy() {
+			const linkTextElement = document.querySelector("#linktext");
+			document.getSelection().selectAllChildren(linkTextElement);
+			document.execCommand("copy")
+
+			console.log('1');
+		}
+	</script>
+</body>
+</html>

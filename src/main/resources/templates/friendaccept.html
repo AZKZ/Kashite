@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head th:replace="common :: common_head(書籍登録)">
+</head>
+<body>
+	<div th:replace="common :: common_navbar"></div>
+	<div class="uk-container uk-container-xsmall uk-margin-small-top">
+
+		<!-- 承認対象一覧 -->
+		<table class="uk-table uk-table-middle uk-table-divider">
+			<tbody>
+				<!-- 件数分 繰り返す -->
+				<div th:each="acceptTarget : ${viewFriendRelationList}">
+					<tr>
+
+						<!-- アイコン画像 -->
+						<td class="uk-table-shrink">
+							<img class="uk-preserve-width uk-border-circle" src="https://placehold.jp/100/3d4070/ffffff/150x150.png?text=%E2%98%BA" width="40" alt="">
+						</td>
+
+						<!-- ユーザー名 -->
+						<td class="uk-width-2-5 uk-width-3-5@l" th:text="${acceptTarget.requestUserName}">
+						</td>
+
+						<!-- 承認・拒否ボタン -->
+						<!-- classは[button_{tfrId}]としている。 -->
+						<!-- クリック時にjsで任意のパスにpostリクエスト -->
+						<td class="uk-text-center">
+							<div th:id="'button_'+${acceptTarget.tfrId}">
+								<a class="uk-icon-button uk-button-primary" uk-icon="check" th:attr="onclick='submitAcceptance(\'acceptForm\',' + ${acceptTarget.tfrId} + ',\'check\');'"></a>
+								<a class="uk-icon-button uk-button-danger" uk-icon="ban" th:attr="onclick='submitAcceptance(\'refuseForm\',' + ${acceptTarget.tfrId} + ',\'ban\');'"></a>
+							</div>
+						</td>
+					</tr>
+				</div>
+			</tbody>
+		</table>
+
+		<form name="acceptForm" th:action="@{/friend/accept}" th:method="post"></form>
+		<form name="refuseForm" th:action="@{/friend/refuse}" th:method="post"></form>
+
+	</div>
+
+	<script>
+		/**
+		 * 承認結果をpost送信する
+		 * レスポンスが正常の場合、ボタンの変更も行う
+		 *
+		 * @action 送信先
+		 * @tfrId フレンドリレーションID
+		 * @icon 変更後のアイコン
+		 */
+		function submitAcceptance(formName, tfrId, icon) {
+
+			const form = document.forms[formName];
+			const formData = new FormData(form);
+			formData.append("tfrId", tfrId);
+
+			// フォームを送信
+			fetch(form.action, {
+				method: form.method,
+				body: formData
+			})
+				.then(function (response) {
+					// 正常なレスポンスのみ処理する
+					if (response.ok) {
+						changeAcceptanceButton(tfrId, icon);
+					}
+				})
+				// エラー時
+				.catch(function (error) {
+					console.log("error:" + error);
+				});
+		}
+
+		/**
+		 * 押下されたボタンをアイコンに変更する
+		 *
+		 * @tfrId 押下されたレコードのID
+		 * @icon 変更後のアイコン
+		 */
+		function changeAcceptanceButton(tfrId, icon) {
+			// id指定でdiv要素を取得
+			const targetButton = document.querySelectorAll("#button_" + tfrId);
+
+			// 指定したdiv要素配下のボタンをアイコンに変更する
+			targetButton[0].innerHTML = '<span uk-icon="icon:' + icon + '"></span>'
+		}
+	</script>
+
+</body>
+</html>

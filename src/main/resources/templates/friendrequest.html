@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+
+<head th:replace="common :: common_head(書籍登録)">
+</head>
+<body>
+	<div th:replace="common :: common_navbar"></div>
+	<div class="uk-container uk-container-xsmall uk-margin-medium-top">
+
+		<!-- QRコード-->
+		<img class="uk-align-center" src="https://placehold.jp/100/3d4070/ffffff/150x150.png?text=%E2%98%BA" alt="">
+
+		<div class="uk-text-center">
+			<p class="uk-text-large uk-text-bold" th:text="${acceptanceUserName}"></p>
+			<p>フレンドリクエストしますか？</p>
+
+
+			<form name="friendRequestForm" th:action="@{/friend/request}" th:method="post">
+				<input type="hidden" name="tfrId" th:value="${tfrId}">
+				<input type="button" onclick="submitRequest()" class="uk-button uk-button-primary uk-border-pill uk-margin-medium-top" value="リクエスト">
+			</form>
+		</div>
+
+	</div>
+
+	<script>
+		/**
+		 * フレンドリクエストをPOSTで送信する
+		 *
+		 */
+		function submitRequest() {
+			const friendRequestForm = document.friendRequestForm;
+
+			// フォームを送信
+			fetch(friendRequestForm.action, {
+				method: friendRequestForm.method,
+				body: new FormData(friendRequestForm)
+			})
+				.then(function (response) {
+					// 正常なレスポンスのみ処理する
+					if (response.ok) {
+						alertMessage();
+					}
+				})
+				// エラー時
+				.catch(function (error) {
+					console.log("error:" + error);
+				});
+		}
+
+		/**
+		 * リクエスト送信が成功したメッセージを表示する
+		 *
+		 */
+		async function alertMessage() {
+
+			// alertのOKボタン押下を待つためawaitにしている
+			await UIkit.modal.alert("リクエストしました。");
+			await location.replace("/friend/list");
+		}
+	</script>
+</body>
+</html>

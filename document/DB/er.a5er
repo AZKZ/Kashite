@@ -1,0 +1,351 @@
+﻿# A5:ER FORMAT:13
+# A5:ER ENCODING:UTF8
+# A5:ER Mk-1 Copyright (C)2007 m.matsubara
+# A5:SQL Mk-2 Copyright (C)1997 m.matsubara
+#  https://a5m2.mmatsubara.com
+
+[Manager]
+ProjectName=
+Author=
+MaxEntityRowShow=1000
+ReadOnlyRecommend=0
+Page=Main
+PageInfo="Main",2,"A3Landscape",$FFFFFF
+LogicalView=1
+DecodeDomain=0
+ViewModePageIndividually=1
+ViewMode=2
+ViewFormat=0
+UseNondependenceDashLine=0
+FontName=Tahoma
+FontSize=6
+PaperSize=A4Landscape
+HeaderLeft=
+HeaderCenter=
+HeaderRight=
+FooterLeft=
+FooterCenter=
+FooterRight=
+ShowPageoutRelation=1
+RDBMSType=6
+RDBMSTypeName=PostgreSQL
+GenerateDropTableStatement=1
+DropTableIfExists=1
+CommonField="作成日","creation_date","@DATETIME","NOT NULL",,"","",$FFFFFFFF
+CommonField="作成者","created_user","@VARCHAR(30)","NOT NULL",,"","",$FFFFFFFF
+CommonField="作成プログラム","created_program","@VARCHAR(30)","NOT NULL",,"","",$FFFFFFFF
+CommonField="更新日","update_date","@DATETIME","NOT NULL",,"","",$FFFFFFFF
+CommonField="更新者","update_user","@VARCHAR(30)","NOT NULL",,"","",$FFFFFFFF
+CommonField="更新プログラム","update_program","@VARCHAR(30)","NOT NULL",,"","",$FFFFFFFF
+CommonField="バージョン","version","@INT","NOT NULL",,"","",$FFFFFFFF
+DefaultPkName=%0:s_PKC
+DefaultPkIndexName=%0:s_PKI
+DefaultIndexName=%0:s_IX%1:d
+DefaultFkName=%0:s_FK%1:d
+SqlSeparator=0
+ShowTag=1
+ShowCommonAttributes=0
+
+[Entity]
+PName=MST_BOOK
+LName=書籍マスタ
+Comment=
+TableOption=
+Page=MAIN
+Left=550
+Top=450
+Field="ID","id","serial",,0,"","",$FFFFFFFF,""
+Field="書籍名","title","@VARCHAR(200)","NOT NULL",,"","",$FFFFFFFF,""
+Field="ISBNコード","isbn_code","@VARCHAR(13)",,,"","",$FFFFFFFF,""
+Field="著者","author","@VARCHAR(200)",,,"","",$FFFFFFFF,""
+Field="発行年","published_year","@VARCHAR(4)",,,"","",$FFFFFFFF,""
+Field="タグマップID","tags","@INT",,,"","",$FFFFFFFF,""
+Field="画像パス","image_path","@VARCHAR(300)",,,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$26FBCB
+ModifiedDateTime=20200518051825
+Position="MAIN",550,450,222,196
+ZOrder=0
+
+[Entity]
+PName=MAP_TAG
+LName=タグマップ
+Comment=
+TableOption=
+Page=MAIN
+Left=450
+Top=1500
+Field="ID","id","serial","NOT NULL",0,"","",$FFFFFFFF,""
+Field="タグマップID","tag_map_id","integer","NOT NULL",,"","",$FFFFFFFF,""
+Field="タグID","tag_id","integer","NOT NULL",,"","",$FFFFFFFF,""
+Index==2,tag_map_id ,tag_id 
+EffectMode=None
+Color=$000000
+BkColor=$A4A0A0
+ModifiedDateTime=20200412133150
+Position="MAIN",450,1500,175,196
+ZOrder=1
+
+[Entity]
+PName=MST_TAG
+LName=タグマスタ
+Comment=
+TableOption=
+Page=MAIN
+Left=100
+Top=1500
+Field="ID","id","serial",,0,"","",$FFFFFFFF,""
+Field="タグ名","tag_name","@VARCHAR(50)","NOT NULL",,"","",$FFFFFFFF,""
+Field="有効フラグ","enable_flg","@VARCHAR(1)","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$26FBCB
+ModifiedDateTime=20200404105217
+Position="MAIN",100,1500,188,196
+ZOrder=2
+
+[Entity]
+PName=TRN_USER_BOOK
+LName=ユーザー書籍
+Comment=
+TableOption=
+Page=MAIN
+Left=550
+Top=850
+Field="ID","id","serial",,0,"","",$FFFFFFFF,""
+Field="ユーザーID","user_id","@INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="書籍ID","book_id","@INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="登録日","regist_date","@DATE","NOT NULL",,"","",$FFFFFFFF,""
+Field="ステータス","status","@VARCHAR(1)","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FAEBB4
+ModifiedDateTime=20200514055621
+Position="MAIN",550,850,241,220
+ZOrder=3
+
+[Entity]
+PName=MST_USER
+LName=ユーザーマスタ
+Comment=
+TableOption=
+Page=MAIN
+Left=150
+Top=450
+Field="ID","id","serial",,0,"","",$FFFFFFFF,""
+Field="名前","name","@VARCHAR(50)","NOT NULL",,"","",$FFFFFFFF,""
+Field="サブジェクト","subject","@VARCHAR(300)","NOT NULL",,"","",$FFFFFFFF,""
+Field="トークン発行者","issuer","@VARCHAR(300)","NOT NULL",,"","",$FFFFFFFF,""
+Field="有効フラグ","enable_flg","@VARCHAR(1)","NOT NULL",,"","",$FFFFFFFF,""
+Index==2,subject,issuer
+EffectMode=None
+Color=$000000
+BkColor=$26FBCB
+ModifiedDateTime=20200528062609
+Position="MAIN",150,450,217,169
+ZOrder=4
+
+[View]
+PName=VIEW_TAG_MAP_LIST
+LName=タグマップ一覧ビュー
+Comment=
+ViewOption=
+Query=SELECT\n    row_number() OVER () as id\n   ,mp.tag_map_id\n   ,mp.tag_id    \n   ,mt.tag_name  \nFROM\n    map_tag mp\n   ,mst_tag mt\nWHERE 1=1\nAND mp.tag_map_id = mt.id\nAND mt.enable_flg = \q1\q\nORDER BY\n    mp.tag_map_id\n   ,mp.tag_id
+LNameByComment=1
+Color=$000000
+BkColor=$F0FBFF
+Position="MAIN",750,1500,233,122
+ZOrder=5
+Page=MAIN
+Left=750
+Top=1500
+
+[View]
+PName=VIEW_USER_BOOK_LIST
+LName=ユーザー書籍一覧ビュー
+Comment=
+ViewOption=
+Query=SELECT\n    tub.id as tub_id\n   ,tub.user_id\n   ,mu.name as user_name\n   ,mb.title\n   ,mb.author\n   ,mb.isbn_code\n   ,tub.regist_date\n   ,tub.status as status_code\n   ,mubs.name as status_name\n   ,mb.image_path\nFROM\n    mst_book mb\n   ,trn_user_book tub\n   ,mst_user_book_status mubs\n   ,mst_user mu\nWHERE 1=1\nAND mb.id = tub.book_id\nAND tub.status = mubs.status\nAND tub.user_id = mu.id\n
+LNameByComment=1
+Color=$000000
+BkColor=$FFFFFF
+Position="MAIN",850,850,299,339
+ZOrder=6
+Page=MAIN
+Left=850
+Top=850
+
+[Entity]
+PName=MST_USER_BOOK_STATUS
+LName=ユーザー書籍ステータス
+Comment=
+TableOption=
+Page=MAIN
+Left=950
+Top=450
+Field="ステータス","status","@VARCHAR(1)",,0,"","",$FFFFFFFF,""
+Field="名称","name","@VARCHAR(10)","NOT NULL",,"","",$FFFFFFFF,""
+Field="摘要","description","@VARCHAR(200)",,,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$26FBCB
+ModifiedDateTime=20200530093845
+Position="MAIN",950,450,209,159
+ZOrder=7
+
+[Relation]
+Entity1=MST_USER
+Entity2=TRN_USER_BOOK
+RelationType1=2
+RelationType2=3
+Fields1=id
+Fields2=user_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,4671,6494,1331,R,R
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20200527063556
+LineMode=0
+Bar1=467
+Bar2=649
+Bar3=133
+TermPos1=R
+TermPos2=R
+ZOrder=8
+
+[Relation]
+Entity1=MST_BOOK
+Entity2=TRN_USER_BOOK
+RelationType1=2
+RelationType2=3
+Fields1=id
+Fields2=book_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,4544,8351,4186,R,R
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20200527063643
+LineMode=0
+Bar1=454
+Bar2=835
+Bar3=419
+TermPos1=R
+TermPos2=R
+ZOrder=9
+
+[Relation]
+Entity1=MST_USER_BOOK_STATUS
+Entity2=TRN_USER_BOOK
+RelationType1=2
+RelationType2=3
+Fields1=status
+Fields2=status
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,1649,6534,6491,R,R
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20200527063811
+LineMode=0
+Bar1=165
+Bar2=653
+Bar3=649
+TermPos1=R
+TermPos2=R
+ZOrder=10
+
+[Entity]
+PName=TRN_FRIEND_RELATION
+LName=フレンドリレーション
+Comment=
+TableOption=
+Page=MAIN
+Left=1300
+Top=650
+Field="ID","id","serial",,0,"","",$FFFFFFFF,""
+Field="申請者ID","request_user_id","@INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="承認者ID","acceptance_user_id","@INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="ステータス","status","@VARCHAR(1)","NOT NULL",,"","",$FFFFFFFF,""
+Index==2,request_user_id,acceptance_user_id
+EffectMode=None
+Color=$000000
+BkColor=$FAEBB4
+ModifiedDateTime=20200613090556
+Position="MAIN",1300,650,257,148
+ZOrder=11
+
+[Entity]
+PName=MST_FRIEND_RELATION_STATUS
+LName=フレンドリレーションステータス
+Comment=
+TableOption=
+Page=MAIN
+Left=1750
+Top=650
+Field="ステータス","status","@VARCHAR(1)",,0,"","",$FFFFFFFF,""
+Field="名称","name","@VARCHAR(10)","NOT NULL",,"","",$FFFFFFFF,""
+Field="摘要","description","@VARCHAR(200)",,,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$26FBCB
+ModifiedDateTime=20200603225232
+Position="MAIN",1750,650,243,148
+ZOrder=12
+
+[Relation]
+Entity1=MST_FRIEND_RELATION_STATUS
+Entity2=TRN_FRIEND_RELATION
+RelationType1=3
+RelationType2=2
+Fields1=status
+Fields2=status
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",9,4345,9201,4075,R,R
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20200527210615
+LineMode=9
+Bar1=434
+Bar2=920
+Bar3=408
+TermPos1=R
+TermPos2=R
+ZOrder=13
+
+[View]
+PName=VIEW_FRIEND_RELETION_LIST
+LName=フレンドリレーション一覧ビュー
+Comment=
+ViewOption=
+Query=SELECT\n    tfr.id as tfr_id\n   ,tfr.request_user_id\n   ,mt_r.name as request_user_name\n   ,tfr.acceptance_user_id\n   ,mt_a.name as acceptance_user_name\n   ,tfr.status as status_code\n   ,mfrs.name as status_name\nFROM\n    trn_friend_relation tfr\n   ,mst_user mt_r\n   ,mst_user mt_a\n   ,mst_friend_relation_status mfrs\nWHERE 1=1\nAND tfr.request_user_id = mt_r.id\nAND tfr.acceptance_user_id = mt_a.id\nAND mt_r.enable_flg = \q1\q\nAND mt_a.enable_flg = \q1\q\nAND tfr.status = mfrs.status\n
+LNameByComment=1
+Color=$000000
+BkColor=$FFFFFF
+Position="MAIN",1300,850,318,243
+ZOrder=14
+Page=MAIN
+Left=1300
+Top=850
+
+[View]
+PName=VIEW_USER_FRIEND_LIST
+LName=ユーザーフレンド一覧ビュー
+Comment=
+ViewOption=
+Query=SELECT\n    vfrl_r.tfr_id                 as tfr_id\n   ,mu.id                         as user_id\n   ,mu.name                       as user_name\n   ,vfrl_r.acceptance_user_id     as friend_id\n   ,vfrl_r.acceptance_user_name   as friend_name\nFROM\n    mst_user mu\n   ,view_friend_reletion_list vfrl_r\nWHERE 1=1\nAND mu.id = vfrl_r.request_user_id\nAND vfrl_r.status_code = \q3\q --承認済み\n\nUNION ALL\n\nSELECT\n    vfrl_a.tfr_id                 as tfr_id\n   ,mu.id                         as user_id\n   ,mu.name                       as user_name\n   ,vfrl_a.request_user_id        as friend_id\n   ,vfrl_a.request_user_name      as friend_name\nFROM\n    mst_user mu\n   ,view_friend_reletion_list vfrl_a\nWHERE 1=1\nAND mu.id = vfrl_a.acceptance_user_id\nAND vfrl_a.status_code = \q3\q --承認済み
+LNameByComment=1
+Color=$000000
+BkColor=$FFFFFF
+Position="Main",1750,900,341,180
+ZOrder=15
+Page=Main
+Left=1750
+Top=900

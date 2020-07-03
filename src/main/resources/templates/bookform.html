@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<style>
+	.cameraOn {
+		background-color: lightpink !important;
+	}
+</style>
+<head th:replace="common :: common_head(書籍登録)">
+</head>
+<body>
+	<div th:replace="common :: common_navbar"></div>
+	<div class="uk-container uk-container-xsmall uk-margin-small-top">
+
+		<!-- 検索Form -->
+		<!-- アコーディオンで最初は閉じている -->
+		<ul uk-accordion>
+			<li>
+
+				<!-- tooltipで説明文を表示 -->
+				<a class="uk-accordion-title uk-text-large">検索</a>
+
+				<!-- 展開される内容 -->
+				<div class="uk-accordion-content">
+					<div class="uk-margin-small-left">
+
+						<!-- ISBNコードの説明 -->
+						<p class="uk-text-meta uk-margin-remove-bottom">ISBNコードとは  <span class="uk-padding-small uk-padding-remove-horizontal" uk-icon="icon:question; ratio: 0.7" uk-tooltip="title:97から始まる英数字13桁、もしくは英数字10桁の書籍コード; pos: right"></span></p>
+
+
+						<div class="uk-flex-inline">
+
+							<!-- カメラボタン -->
+							<span href="" id="cameraButton" class="uk-icon-button" uk-icon="camera"></span>
+
+							<!-- ISBNコード検索 -->
+							<form id="SerchIsbnCodeForm" th:action="@{/addbookform}" th:method="get">
+								<input id="textFormIsbnCode" class="uk-input uk-width-3-5" type="text" placeholder="ISBN Code" th:name="isbn" pattern="^(97(8|9))?\d{9}(\d|X)$" oninvalid="this.setCustomValidity('ISBNコードではありません。')" onchange="this.setCustomValidity('')" />
+								<input type="submit" class="uk-button uk-button-default" th:value="検索" />
+							</form>
+						</div>
+
+						<!-- ビデオ画面 -->
+						<div>
+							<video id="video" class="uk-margin-small-top"></video>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+
+		<hr>
+
+		<!-- 書籍登録Form -->
+		<p class="uk-text-large" th:text="書籍登録"></p>
+		<form class="uk-form-stacked" th:action="@{/addbook}" th:object=" ${bookInfoForm}" th:method="post">
+
+			<!-- 入力項目 レスポンシブに幅を変える -->
+			<div class="uk-margin-small-left uk-width-3-4 uk-width-2-3@l">
+				<label class="uk-form-label">書籍名</label>
+				<div class="uk-form-controls">
+					<input class="uk-input" type="text" th:field="*{title}" required="required">
+				</div>
+				<label class="uk-form-label">著者名</label>
+				<div class="uk-form-controls">
+					<input class="uk-input" type="text" th:field="*{author}" required="required">
+				</div>
+				<label class="uk-form-label">ISBNコード</label>
+				<div class="uk-form-controls">
+					<input class="uk-input" type="text" th:field="*{isbnCode}" pattern="^(97(8|9))?\d{9}(\d|X)$" oninvalid="this.setCustomValidity('ISBNコードではありません。')" onchange="this.setCustomValidity('')">
+				</div>
+				<input type="hidden" th:field="*{id}">
+				<input type="hidden" th:field="*{imagePath}">
+			</div>
+
+			<!-- 登録ボタン 中央揃え -->
+			<input class="uk-button uk-button-primary uk-align-center" type="submit" th:value="登録">
+		</form>
+	</div>
+
+	<script>
+		window.addEventListener('load', function () {
+			let selectedDeviceId;
+			const cameraButton = document.getElementById("cameraButton");
+			const textFormIsbnCode = document.getElementById("textFormIsbnCode");
+			const codeReader = new ZXing.BrowserBarcodeReader();
+			console.log('ZXing code reader initialized')
+
+			// カメラデバイスからバーコードを読み取り
+			codeReader.getVideoInputDevices()
+				.then((videoInputDevices) => {
+
+					// カメラデバイスを設定
+					selectedDeviceId = videoInputDevices[0].deviceId;
+
+					// カメラボタン押下時
+					cameraButton.addEventListener("click", () => {
+
+						// カメラが既に起動している場合
+						if (cameraButton.classList.contains("cameraOn")) {
+
+							// カメラボタンを白くする
+							cameraButton.classList.remove("cameraOn");
+
+							// バーコードリーダーを停止する
+							codeReader.reset();
+
+							// カメラが起動していない場合
+						} else {
+
+							// カメラボタンを赤くする
+							cameraButton.classList.add("cameraOn");
+							// テキストボックスを空にする
+							textFormIsbnCode.value = "";
+
+							// バリデーションメッセージを空にする
+							// これが無いと正常に判定されない
+							textFormIsbnCode.setCustomValidity('');
+
+							// バーコード読み取り開始
+							codeReader.decodeOnceFromVideoDevice(selectedDeviceId, 'video')
+								// 読み取り成功時
+								.then((result) => {
+									console.log(result)
+
+									// テキストボックスに読み取った値が入る
+									textFormIsbnCode.value = result.text;
+
+									// カメラボタンを白くする
+									cameraButton.classList.remove("cameraOn");
+									// バーコードリーダーを停止する
+									codeReader.reset();
+
+									// 読み取り失敗時
+								}).catch((err) => {
+									console.log(err);
+								})
+						}
+
+						console.log(`Started continous decode from camera with id ${selectedDeviceId}`);
+					});
+
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+		})
+
+
+	</script>
+</body>
+</html>
