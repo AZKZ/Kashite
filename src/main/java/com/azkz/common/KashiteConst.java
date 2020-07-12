@@ -1,6 +1,6 @@
 package com.azkz.common;
 
-public class kashiteConst {
+public class KashiteConst {
 
   /** フレンドリレーションステータス 未申請 */
   public static final char FRIEND_RELATION_STATUS_NY_REQUEST = '1';
@@ -20,4 +20,9 @@ public class kashiteConst {
   /** フレンドリレーションステータス 拒否 */
   public static final char FRIEND_RELATION_STATUS_REFUSE = '6';
 
+  /** 有効フラグ 有効 */
+  public static final char ENABLE_FLG_ENABLE = '1';
+
+  /** 有効フラグ 無効 */
+  public static final char ENABLE_FLG_DISABLE = '0';
 }

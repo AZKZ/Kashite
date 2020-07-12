@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.azkz.businesslogic.service.FriendService;
 import com.azkz.businesslogic.service.UserService;
-import com.azkz.common.kashiteConst;
+import com.azkz.common.KashiteConst;
 import com.azkz.infrastructure.entity.ViewFriendRelationList;
 import com.azkz.infrastructure.entity.ViewUserFriendList;
 
@@ -145,7 +145,7 @@ public class FriendController {
   public void acceptFriend(@AuthenticationPrincipal final OidcUser principal, @RequestParam("tfrId") long tfrId) {
 
     friendService.replyFriendRequest(tfrId, userService.getUserId(principal),
-        kashiteConst.FRIEND_RELATION_STATUS_ACCEPTED);
+        KashiteConst.FRIEND_RELATION_STATUS_ACCEPTED);
   }
 
   /**
@@ -159,7 +159,7 @@ public class FriendController {
   public void refuseFriend(@AuthenticationPrincipal final OidcUser principal, @RequestParam("tfrId") long tfrId) {
 
     friendService.replyFriendRequest(tfrId, userService.getUserId(principal),
-        kashiteConst.FRIEND_RELATION_STATUS_REFUSE);
+        KashiteConst.FRIEND_RELATION_STATUS_REFUSE);
 
   }
 

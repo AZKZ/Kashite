@@ -10,7 +10,7 @@ import com.azkz.businesslogic.repository.MstUserRepository;
 import com.azkz.businesslogic.repository.TrnFriendRelationRepository;
 import com.azkz.businesslogic.repository.ViewFriendRelationListRepository;
 import com.azkz.businesslogic.repository.ViewUserFriendListRepository;
-import com.azkz.common.kashiteConst;
+import com.azkz.common.KashiteConst;
 import com.azkz.infrastructure.entity.TrnFriendRelation;
 import com.azkz.infrastructure.entity.ViewFriendRelationList;
 import com.azkz.infrastructure.entity.ViewUserFriendList;
@@ -55,7 +55,7 @@ public class FriendService {
     // 承認待ちとなっているデータの件数を取得
     // TODO 保留も含めるか検討
     return viewFriendRelationListRepository.countByAcceptanceUserIdAndStatusCode(acceptanceUserId,
-        kashiteConst.FRIEND_RELATION_STATUS_NY_ACCEPT);
+        KashiteConst.FRIEND_RELATION_STATUS_NY_ACCEPT);
   }
 
   /**
@@ -68,11 +68,11 @@ public class FriendService {
 
     // ステータス「承認待ち」のデータ取得
     List<ViewFriendRelationList> nyAcceptList = viewFriendRelationListRepository
-        .findByAcceptanceUserIdAndStatusCode(acceptanceUserId, kashiteConst.FRIEND_RELATION_STATUS_NY_ACCEPT);
+        .findByAcceptanceUserIdAndStatusCode(acceptanceUserId, KashiteConst.FRIEND_RELATION_STATUS_NY_ACCEPT);
 
     // ステータス「保留」のデータ取得
     List<ViewFriendRelationList> onHoldList = viewFriendRelationListRepository
-        .findByAcceptanceUserIdAndStatusCode(acceptanceUserId, kashiteConst.FRIEND_RELATION_STATUS_ON_HOLD);
+        .findByAcceptanceUserIdAndStatusCode(acceptanceUserId, KashiteConst.FRIEND_RELATION_STATUS_ON_HOLD);
 
     // 2つのリストをマージ
     List<ViewFriendRelationList> viewFriendRelationList = new ArrayList<>();
@@ -143,7 +143,7 @@ public class FriendService {
 
       // 既存データがない場合はステータス「未申請」で新規作成
       trnFriendRelationRepository.saveAndFlush(new TrnFriendRelation(requestUserId, acceptanceUserId,
-          kashiteConst.FRIEND_RELATION_STATUS_NY_REQUEST, String.valueOf(requestUserId), "createFriendRequest"));
+          KashiteConst.FRIEND_RELATION_STATUS_NY_REQUEST, String.valueOf(requestUserId), "createFriendRequest"));
 
     } else {
 
@@ -151,11 +151,11 @@ public class FriendService {
       char status = trnFriendRelation.getStatus();
 
       // 「申請キャンセル」or 「拒否」の場合は
-      if (kashiteConst.FRIEND_RELATION_STATUS_REQUEST_CANCEL == status
-          || kashiteConst.FRIEND_RELATION_STATUS_REFUSE == status) {
+      if (KashiteConst.FRIEND_RELATION_STATUS_REQUEST_CANCEL == status
+          || KashiteConst.FRIEND_RELATION_STATUS_REFUSE == status) {
 
         // ステータス「未申請」に更新
-        trnFriendRelation.setStatus(kashiteConst.FRIEND_RELATION_STATUS_NY_REQUEST);
+        trnFriendRelation.setStatus(KashiteConst.FRIEND_RELATION_STATUS_NY_REQUEST);
         trnFriendRelationRepository.saveAndFlush(trnFriendRelation);
       }
 
@@ -164,7 +164,7 @@ public class FriendService {
     // 未申請のフレンドリレーションデータを取得
     ViewFriendRelationList viewFriendRelationList = viewFriendRelationListRepository
         .findByRequestUserIdAndAcceptanceUserIdAndStatusCode(requestUserId, acceptanceUserId,
-            kashiteConst.FRIEND_RELATION_STATUS_NY_REQUEST);
+            KashiteConst.FRIEND_RELATION_STATUS_NY_REQUEST);
 
     // ここで未申請のデータが取れない場合は既にリクエストしているのでエラーとする
     if (viewFriendRelationList == null) {
@@ -191,12 +191,12 @@ public class FriendService {
       throw new IllegalArgumentException("対象データなし");
     } else if (trnFriendRelation.getRequestUserId() != requestUserId) {
       throw new IllegalArgumentException("リクエストユーザの不一致");
-    } else if (trnFriendRelation.getStatus() != kashiteConst.FRIEND_RELATION_STATUS_NY_REQUEST) {
+    } else if (trnFriendRelation.getStatus() != KashiteConst.FRIEND_RELATION_STATUS_NY_REQUEST) {
       throw new IllegalArgumentException("対象データのステータスが不正");
     }
 
     // ステータス「承認待ち」に更新
-    trnFriendRelation.setStatus(kashiteConst.FRIEND_RELATION_STATUS_NY_ACCEPT);
+    trnFriendRelation.setStatus(KashiteConst.FRIEND_RELATION_STATUS_NY_ACCEPT);
     trnFriendRelationRepository.saveAndFlush(trnFriendRelation);
 
     return true;
@@ -225,12 +225,12 @@ public class FriendService {
       throw new IllegalArgumentException("承認ユーザーの不一致");
 
       // リレーションデータのステータスチェック
-    } else if (trnFriendRelation.getStatus() != kashiteConst.FRIEND_RELATION_STATUS_NY_ACCEPT) {
+    } else if (trnFriendRelation.getStatus() != KashiteConst.FRIEND_RELATION_STATUS_NY_ACCEPT) {
       throw new IllegalArgumentException("対象データのステータスが不正");
 
       // 引数のstatusの値チェック
-    } else if (status != kashiteConst.FRIEND_RELATION_STATUS_ACCEPTED
-        && status != kashiteConst.FRIEND_RELATION_STATUS_REFUSE) {
+    } else if (status != KashiteConst.FRIEND_RELATION_STATUS_ACCEPTED
+        && status != KashiteConst.FRIEND_RELATION_STATUS_REFUSE) {
       throw new IllegalArgumentException("引数のステータスが不正");
 
       // 既にフレンドになっているかチェック
@@ -245,7 +245,7 @@ public class FriendService {
 
     // ステータス「承認済み」の場合
     // 申請と承認の関係が逆のリレーションデータを削除する
-    if (status == kashiteConst.FRIEND_RELATION_STATUS_ACCEPTED) {
+    if (status == KashiteConst.FRIEND_RELATION_STATUS_ACCEPTED) {
 
       // 逆関係のリレーションデータを取得
       TrnFriendRelation reverseRelation = trnFriendRelationRepository.findByRequestUserIdAndAcceptanceUserId(
