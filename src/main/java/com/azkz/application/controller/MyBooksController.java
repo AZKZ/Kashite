@@ -36,8 +36,7 @@ public class MyBooksController {
 
 	@GetMapping("/addbookform")
 	public ModelAndView directAddBookForm(ModelAndView modelAndView,
-			@RequestParam(name = "isbn", required = false) String isbn,
-			@RequestParam(name = "error", required = false) String error) {
+			@RequestParam(name = "isbn", required = false) String isbn) {
 
 		BookInfoForm bookInfoForm = bookAPIService.getBookInfo(isbn);
 
