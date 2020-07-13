@@ -7,10 +7,10 @@ import java.util.LinkedHashMap;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -38,7 +38,7 @@ public class BookAPIService {
 
 		BookInfoForm bookInfoForm = new BookInfoForm();
 
-		if (StringUtils.isEmpty(isbnCode)) {
+		if (StringUtils.isBlank(isbnCode)) {
 			return bookInfoForm;
 		}
 
@@ -88,6 +88,10 @@ public class BookAPIService {
 	 * @return bookInfoForm (取得できなかったら空)
 	 */
 	private BookInfoForm getOpenbdBookInfo(String isbnCode, BookInfoForm bookInfoForm) {
+
+		if(StringUtils.isBlank(isbnCode) || bookInfoForm == null){
+			throw new IllegalArgumentException("パラメータが不正です");
+		}
 
 		// オブジェクト配列としてOpenBDからデータを取得
 		ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(OPENBD_URL, Object[].class, isbnCode);

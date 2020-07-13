@@ -1,9 +1,10 @@
 package com.azkz.businesslogic.service;
 
+import com.azkz.common.KashiteConst;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import com.azkz.businesslogic.repository.MstUserRepository;
 import com.azkz.infrastructure.entity.MstUser;
@@ -22,7 +23,7 @@ public class UserService {
 
 		String sub = principal.getSubject();
 		String iss = principal.getIssuer().toString();
-		String name = principal.getAttribute("name");
+		String name = (String) principal.getAttributes().get("name");
 
 		boolean existsFlg = mstUserRepository.existsBySubjectAndIssuer(sub, iss);
 
@@ -32,12 +33,12 @@ public class UserService {
 		}
 
 		// 名前がnullの場合
-		if (StringUtils.isEmpty(name)) {
-			name = "untitled";
+		if (StringUtils.isBlank(name)) {
+			name = "no name";
 		}
 
 		// 登録処理
-		MstUser mstUser = new MstUser(sub, iss, "1", name, "azegami", "initialLogin");
+		MstUser mstUser = new MstUser(sub, iss, KashiteConst.ENABLE_FLG_ENABLE, name, "azegami", "initialLogin");
 		mstUserRepository.saveAndFlush(mstUser);
 
 	}
@@ -50,7 +51,7 @@ public class UserService {
 		MstUser mstUser = mstUserRepository.findBySubjectAndIssuer(sub, iss);
 
 		if (mstUser == null) {
-			return -1;
+			throw new IllegalArgumentException("対象のユーザーが存在しません");
 		}
 
 		return mstUser.getId();

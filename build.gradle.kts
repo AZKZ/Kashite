@@ -37,14 +37,15 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
-
-	// バーコード読み取りライブラリ
-	compile("com.google.zxing:javase:3.4.0")
+	implementation("org.apache.commons:commons-lang3:3.10")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+		exclude(module = "mockito-core")
 	}
 	testImplementation("org.springframework.security:spring-security-test")
+	testImplementation("io.mockk:mockk:1.10.0")
+	testImplementation("org.dbunit:dbunit:2.7.0")
 }
 
 tasks.withType<Test> {

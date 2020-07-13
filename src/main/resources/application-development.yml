@@ -1,0 +1,15 @@
+### 本番環境のみの設定を定義 ###
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          mock-oidc:
+            redirect-uri: http://localhost:8080/login/oauth2/code/mocklab
+
+  jpa:
+    database: POSTGRESQL
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/kashite?currentSchema=kashite
+    username: kashite_rw
+    password: kashite_rw

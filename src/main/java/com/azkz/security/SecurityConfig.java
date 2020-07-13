@@ -15,8 +15,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.mvcMatchers("/").permitAll()
 				.anyRequest().authenticated()
 				.and()
-				.oauth2Login()
-				.successHandler(successHandler());
+				.oauth2Login(oauth2 -> oauth2
+						.loginPage("/")
+						.successHandler(successHandler())
+						.authorizationEndpoint(authorization -> authorization
+							.baseUri("/oauth2/authorization/"))
+						);
 	}
 
 	@Bean

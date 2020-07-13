@@ -32,11 +32,11 @@ public class MstUser extends BaseTableEntity {
 	private String issuer;
 
 	@Column(name = "enable_flg")
-	private String enableFlg;
+	private char enableFlg;
 
 	private String name;
 
-	public MstUser(String subject, String issuer, String enableFlg, String name, String createdUser,
+	public MstUser(String subject, String issuer, char enableFlg, String name, String createdUser,
 			String createdProgram) {
 		this.setSubject(subject);
 		this.setIssuer(issuer);
