@@ -1,20 +1,33 @@
+### 共通の設定を定義 ###
 spring:
+  # デフォルトは開発環境の設定値を使う
+  profiles:
+    default: development
+    active: development
+
   security:
-    #OAuthプロバイダー設定
     oauth2:
       client:
+        provider:
+          #Mocklabのエンドポイント設定
+          mocklab:
+            user-name-attribute: sub
+            authorization-uri: https://azkz.mocklab.io/oauth/authorize
+            token-uri: https://azkz.mocklab.io/oauth/token
+            user-info-uri: https://azkz.mocklab.io/userinfo
+            jwk-set-uri: https://azkz.mocklab.io/.well-known/jwks.json
+
+        #Oauthクライアントの設定
         registration:
           google:
             clientId: ${GOOGLE_OAUTH2_ID:XXX}
             clientSecret: ${GOOGLE_OAUTH2_SECRET:XXX}
-
-  #DB設定(接続情報はOS環境変数を参照)
-  jpa:
-    database: POSTGRESQL
-  datasource:
-    url: jdbc:postgresql://${KASHITE_DB_HOST:localhost}:${KASHITE_DB_PORT:5432}/kashite?currentSchema=kashite
-    username: ${KASHITE_DB_USER:username}
-    password: ${KASHITE_DB_PASSWORD:password}
+          mock-oidc:
+            provider: mocklab
+            authorization-grant-type: authorization_code
+            scope: openid, profile, email
+            clientId: mocklab_oidc
+            clientSecret: whatever
 
   # HTTPS対応
   # これがないとログイン時にHTTPになってしまう
