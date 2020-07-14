@@ -1,7 +1,7 @@
 ---
 name: 機能追加
 about: 機能追加及び機能変更のissueに使うテンプレート
-title: "[機能追加]"
+title: ''
 labels: ''
 assignees: ''
 
